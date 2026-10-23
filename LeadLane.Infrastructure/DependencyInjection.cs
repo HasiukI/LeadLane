@@ -1,4 +1,8 @@
+using LeadLane.Domain.Identity.Interfaces;
+using LeadLane.Domain.Identity.Services;
+using LeadLane.Domain.Services;
 using LeadLane.Infrastructure.Persistence;
+using LeadLane.Infrastructure.Repositories.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +22,10 @@ public static class DependencyInjection
 
         services.AddDbContext<LeadLaneDbContext>(options =>
             options.UseNpgsql(connectionString));
+
+        services.AddSingleton<IHashService, HashService>();
+        services.AddScoped<IAuthRepository, AuthRepository>();
+        services.AddScoped<AuthService>();
 
         return services;
     }

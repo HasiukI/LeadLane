@@ -1,31 +1,89 @@
+:root {
+  --ll-paper: #f2e9e4;
+  --ll-muted: #c9ada7;
+  --ll-mid: #9a8c98;
+  --ll-ink-soft: #4a4e69;
+  --ll-ink: #22223b;
+
+  --ll-bg: var(--ll-paper);
+  --ll-surface: #ebe2dc;
+  --ll-border: var(--ll-muted);
+  --ll-text: var(--ll-ink);
+  --ll-text-muted: var(--ll-ink-soft);
+  --ll-accent: var(--ll-ink);
+  --ll-accent-contrast: var(--ll-paper);
+  --ll-focus: var(--ll-ink-soft);
+
+  --ll-radius: 2px;
+  --ll-space: 1.25rem;
+  --ll-max: 72rem;
+  --ll-font: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --ll-display: "IBM Plex Sans", "Segoe UI", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+  font-size: 16px;
 }
 
 body {
-  margin-bottom: 60px;
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--ll-font);
+  color: var(--ll-text);
+  background: var(--ll-bg);
+  line-height: 1.5;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+a {
+  color: var(--ll-ink-soft);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+a:hover {
+  color: var(--ll-ink);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--ll-display);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.5em;
+  color: var(--ll-ink);
+}
+
+p {
+  margin: 0 0 1em;
+  color: var(--ll-text-muted);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+.button {
+  font: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ll-focus);
+  outline-offset: 2px;
+}
+
+.site-main {
+  width: min(100% - 2 * var(--ll-space), var(--ll-max));
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
 }

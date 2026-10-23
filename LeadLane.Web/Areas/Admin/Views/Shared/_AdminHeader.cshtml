@@ -1,0 +1,9 @@
+<header class="site-header">
+    <div class="site-header__inner">
+        <a class="site-header__brand" asp-area="Admin" asp-controller="LeadLane" asp-action="Index">LeadLane</a>
+        <form class="admin-header__logout" asp-area="Auth" asp-controller="Auth" asp-action="Logout" method="post">
+            @Html.AntiForgeryToken()
+            <button class="site-header__admin" type="submit">Sign out</button>
+        </form>
+    </div>
+</header>
