@@ -4,10 +4,26 @@
 }
 
 .login__title {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   font-size: 1.35rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+.login__demo {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0 0 1.5rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--ll-border);
+  background: var(--ll-surface);
+  font-size: 0.85rem;
+  color: var(--ll-ink-soft);
+}
+
+.login__demo code {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  color: var(--ll-ink);
 }
 
 .login__form {

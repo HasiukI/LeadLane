@@ -6,6 +6,12 @@
 <section class="login">
     <h1 class="login__title">Sign in</h1>
 
+    <p class="login__demo">
+        Demo credentials (portfolio):
+        <span>Login <code>admin</code></span>
+        <span>Password <code>admin123</code></span>
+    </p>
+
     <form class="login__form" asp-area="Auth" asp-controller="Auth" asp-action="Login" method="post">
         <div asp-validation-summary="ModelOnly" class="login__errors"></div>
 
