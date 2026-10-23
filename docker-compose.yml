@@ -1,0 +1,25 @@
+name: leadlane
+
+services:
+  db:
+    image: postgres:18
+    container_name: leadlane-postgres
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: leadlane
+      POSTGRES_USER: leadlane
+      POSTGRES_PASSWORD: dev_only_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - leadlane-pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  leadlane-pgdata:
