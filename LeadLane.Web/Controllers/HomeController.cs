@@ -1,19 +1,41 @@
 using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+using LeadLane.Domain.Leads.Services;
 using LeadLane.Web.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LeadLane.Web.Controllers;
 
-public class HomeController : Controller
+public class HomeController(LeadService leadService) : Controller
 {
+    [HttpGet]
     public IActionResult Index()
     {
-        return View();
+        return View(new CreateLeadViewModel());
     }
 
-    public IActionResult Privacy()
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Index(CreateLeadViewModel model)
     {
-        return View();
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var result = await leadService.CreateAsync(
+            model.Name,
+            model.Phone,
+            model.Email,
+            model.Message);
+
+        if (!result.IsSuccess)
+        {
+            ModelState.AddModelError(string.Empty, result.ErrorMessage ?? "Could not submit the form");
+            return View(model);
+        }
+
+        TempData["Success"] = "Thank you. We will contact you soon.";
+        return RedirectToAction(nameof(Index));
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

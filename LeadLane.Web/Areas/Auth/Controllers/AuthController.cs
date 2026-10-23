@@ -62,7 +62,7 @@ public class AuthController(AuthService authService) : Controller
             return Redirect(returnUrl);
         }
 
-        return RedirectToAction("Index", "LeadLane", new { area = "Admin" });
+        return RedirectToAction("Index", "Leads", new { area = "Admin" });
     }
 
     [HttpPost]

@@ -1,0 +1,108 @@
+@using LeadLane.Domain.Leads.Models
+@model LeadBoardViewModel
+@{
+    ViewData["Title"] = "Board";
+    string StatusLabel(LeadStatus status) => status switch
+    {
+        LeadStatus.New => "New",
+        LeadStatus.InProgress => "In progress",
+        LeadStatus.Agreed => "Agreed",
+        LeadStatus.Won => "Won",
+        LeadStatus.Lost => "Lost",
+        _ => status.ToString()
+    };
+}
+
+<section class="admin-board">
+    <header class="admin-board__top">
+        <div>
+            <h1 class="admin-board__title">Board</h1>
+            <p class="admin-board__subtitle">Leads by status</p>
+        </div>
+
+        <form class="admin-board__search" method="get" asp-area="Admin" asp-controller="Leads" asp-action="Index">
+            <label class="visually-hidden" for="q">Search</label>
+            <input id="q" name="q" value="@Model.Query" placeholder="Search name or phone" />
+            <button type="submit">Search</button>
+            @if (!string.IsNullOrWhiteSpace(Model.Query))
+            {
+                <a class="admin-board__clear" asp-area="Admin" asp-controller="Leads" asp-action="Index">Clear</a>
+            }
+        </form>
+    </header>
+
+    @if (TempData["Error"] is string boardError)
+    {
+        <p class="admin-flash admin-flash--error">@boardError</p>
+    }
+
+    <aside class="admin-board__attention" aria-label="Needs attention">
+        <h2 class="admin-board__attention-title">Needs attention</h2>
+        @if (Model.AttentionLeads.Count == 0)
+        {
+            <p class="admin-board__empty">No leads need attention.</p>
+        }
+        else
+        {
+            <ul class="attention-list">
+                @foreach (var lead in Model.AttentionLeads)
+                {
+                    <li>
+                        <a asp-area="Admin" asp-controller="Leads" asp-action="Details" asp-route-id="@lead.Id">
+                            @lead.Name — @lead.Phone
+                        </a>
+                        <span>@lead.NextContactAt?.ToLocalTime().ToString("g")</span>
+                    </li>
+                }
+            </ul>
+        }
+    </aside>
+
+    <div class="admin-board__kanban" aria-label="Kanban">
+        @foreach (LeadStatus status in Enum.GetValues<LeadStatus>())
+        {
+            var columnLeads = Model.Columns.TryGetValue(status, out var list) ? list : Array.Empty<Lead>();
+            <section class="kanban-column">
+                <h2 class="kanban-column__title">@StatusLabel(status) <span>(@columnLeads.Count)</span></h2>
+                <div class="kanban-column__list">
+                    @foreach (var lead in columnLeads)
+                    {
+                        <article class="lead-card">
+                            <a class="lead-card__title"
+                               asp-area="Admin"
+                               asp-controller="Leads"
+                               asp-action="Details"
+                               asp-route-id="@lead.Id">@lead.Name</a>
+                            <p class="lead-card__meta">@lead.Phone</p>
+                            <p class="lead-card__message">@lead.Message</p>
+
+                            <form class="lead-card__status"
+                                  asp-area="Admin"
+                                  asp-controller="Leads"
+                                  asp-action="UpdateStatus"
+                                  method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@lead.Id" />
+                                <input type="hidden" name="returnUrl" value="@Url.Action("Index", "Leads", new { area = "Admin", q = Model.Query })" />
+                                <label class="visually-hidden" for="status-@lead.Id">Status</label>
+                                <select id="status-@lead.Id" name="status" onchange="this.form.submit()">
+                                    @foreach (LeadStatus option in Enum.GetValues<LeadStatus>())
+                                    {
+                                        if (option == lead.Status)
+                                        {
+                                            <option value="@option" selected>@StatusLabel(option)</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@option">@StatusLabel(option)</option>
+                                        }
+                                    }
+                                </select>
+                            </form>
+                        </article>
+                    }
+                </div>
+            </section>
+        }
+    </div>
+</section>

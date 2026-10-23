@@ -1,0 +1,100 @@
+@using LeadLane.Domain.Leads.Models
+@model LeadDetailsViewModel
+@{
+    ViewData["Title"] = Model.Name;
+    string StatusLabel(LeadStatus status) => status switch
+    {
+        LeadStatus.New => "New",
+        LeadStatus.InProgress => "In progress",
+        LeadStatus.Agreed => "Agreed",
+        LeadStatus.Won => "Won",
+        LeadStatus.Lost => "Lost",
+        _ => status.ToString()
+    };
+}
+
+<section class="lead-details">
+    <p class="lead-details__back">
+        <a asp-area="Admin" asp-controller="Leads" asp-action="Index">← Back to board</a>
+    </p>
+
+    <h1 class="lead-details__title">@Model.Name</h1>
+
+    @if (TempData["Success"] is string success)
+    {
+        <p class="admin-flash admin-flash--ok">@success</p>
+    }
+    @if (TempData["Error"] is string error)
+    {
+        <p class="admin-flash admin-flash--error">@error</p>
+    }
+
+    <dl class="lead-details__info">
+        <div>
+            <dt>Phone</dt>
+            <dd>@Model.Phone</dd>
+        </div>
+        <div>
+            <dt>Email</dt>
+            <dd>@(string.IsNullOrWhiteSpace(Model.Email) ? "—" : Model.Email)</dd>
+        </div>
+        <div>
+            <dt>Created</dt>
+            <dd>@Model.CreatedAt.ToLocalTime().ToString("g")</dd>
+        </div>
+        <div class="lead-details__message">
+            <dt>Message</dt>
+            <dd>@Model.Message</dd>
+        </div>
+    </dl>
+
+    <form class="lead-details__form"
+          asp-area="Admin"
+          asp-controller="Leads"
+          asp-action="UpdateStatus"
+          method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.Id" />
+        <label asp-for="Status"></label>
+        <select name="status" asp-for="Status">
+            @foreach (LeadStatus option in Enum.GetValues<LeadStatus>())
+            {
+                if (option == Model.Status)
+                {
+                    <option value="@option" selected>@StatusLabel(option)</option>
+                }
+                else
+                {
+                    <option value="@option">@StatusLabel(option)</option>
+                }
+            }
+        </select>
+        <button type="submit">Update status</button>
+    </form>
+
+    <form class="lead-details__form"
+          asp-area="Admin"
+          asp-controller="Leads"
+          asp-action="UpdateNotes"
+          method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.Id" />
+        <label asp-for="Notes"></label>
+        <textarea name="notes" rows="5">@Model.Notes</textarea>
+        <button type="submit">Save notes</button>
+    </form>
+
+    <form class="lead-details__form"
+          asp-area="Admin"
+          asp-controller="Leads"
+          asp-action="UpdateNextContact"
+          method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.Id" />
+        <label asp-for="NextContactAt"></label>
+        <input type="datetime-local"
+               name="nextContactAt"
+               value="@(Model.NextContactAt?.ToLocalTime().ToString("yyyy-MM-ddTHH:mm"))" />
+        <button type="submit">Save next contact</button>
+    </form>
+</section>
