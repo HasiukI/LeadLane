@@ -1,0 +1,65 @@
+.login {
+  width: min(100%, 22rem);
+  margin: 2rem auto 0;
+}
+
+.login__title {
+  margin-bottom: 1.5rem;
+  font-size: 1.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.login__form {
+  display: grid;
+  gap: 1rem;
+}
+
+.login__field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.login__field label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ll-ink-soft);
+}
+
+.login__field input {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--ll-border);
+  border-radius: var(--ll-radius);
+  background: var(--ll-surface);
+  color: var(--ll-ink);
+  font: inherit;
+}
+
+.login__field input:focus {
+  outline: 2px solid var(--ll-focus);
+  outline-offset: 1px;
+}
+
+.login__field-error,
+.login__errors {
+  color: #7a2e2e;
+  font-size: 0.8rem;
+}
+
+.login__submit {
+  margin-top: 0.35rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--ll-ink);
+  border-radius: var(--ll-radius);
+  background: var(--ll-ink);
+  color: var(--ll-paper);
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+.login__submit:hover {
+  background: var(--ll-ink-soft);
+  border-color: var(--ll-ink-soft);
+}

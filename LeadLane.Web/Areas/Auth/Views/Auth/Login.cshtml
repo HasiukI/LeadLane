@@ -1,0 +1,26 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<section class="login">
+    <h1 class="login__title">Sign in</h1>
+
+    <form class="login__form" asp-area="Auth" asp-controller="Auth" asp-action="Login" method="post">
+        <div asp-validation-summary="ModelOnly" class="login__errors"></div>
+
+        <div class="login__field">
+            <label asp-for="Login"></label>
+            <input asp-for="Login" autocomplete="username" />
+            <span asp-validation-for="Login" class="login__field-error"></span>
+        </div>
+
+        <div class="login__field">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" autocomplete="current-password" />
+            <span asp-validation-for="Password" class="login__field-error"></span>
+        </div>
+
+        <button class="login__submit" type="submit">Sign in</button>
+    </form>
+</section>
