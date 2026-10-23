@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="LeadLane.Domain/LeadLane.Domain.csproj" />
+  <Project Path="LeadLane.Infrastructure/LeadLane.Infrastructure.csproj" />
+  <Project Path="LeadLane.Web/LeadLane.Web.csproj" />
+</Solution>

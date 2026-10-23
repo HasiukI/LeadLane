@@ -1,0 +1,59 @@
+
+.docs/
+
+# Build
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+[Ll]ogs/
+artifacts/
+*.dll
+*.exe
+*.pdb
+*.cache
+
+# Visual Studio / Rider / VS Code
+.vs/
+.idea/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+project.lock.json
+project.fragment.lock.json
+
+# ASP.NET
+appsettings.*.local.json
+**/wwwroot/lib/**/*.map
+
+# Secrets / env
+.env
+.env.*
+!.env.example
+*.pfx
+secrets.json
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Test / coverage
+TestResults/
+[Cc]overage*/
+*.coverage
+*.coveragexml
+
+# Publish
+publish/
+*.publish.xml
